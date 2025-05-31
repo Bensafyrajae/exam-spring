@@ -1,7 +1,6 @@
 package com.example.application_web_examen.controller;
 
 import com.example.application_web_examen.mapper.UserMapper;
-import com.example.application_web_examen.service.ProfService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.MediaType;

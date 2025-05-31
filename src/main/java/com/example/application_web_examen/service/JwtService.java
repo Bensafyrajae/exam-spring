@@ -1,6 +1,5 @@
 package com.example.application_web_examen.service;
 
-import com.example.application_web_examen.enums.Role;
 import com.example.application_web_examen.model.User;
 import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
@@ -19,14 +18,19 @@ import java.util.function.Function;
 
 @Service
 public class JwtService {
-    @Value("${security.jwt.secret-key}")
-    private String secretKey;
 
-    @Value("${security.jwt.expiration-time}")
+    @Value("${jwt.secret}")
+    private String SECRET_KEY;
+
+    @Value("${jwt.expiration}")
     private long jwtExpiration;
 
     public String extractUsername(String token) {
         return extractClaim(token, Claims::getSubject);
+    }
+
+    public Date extractExpiration(String token) {
+        return extractClaim(token, Claims::getExpiration);
     }
 
     public <T> T extractClaim(String token, Function<Claims, T> claimsResolver) {
@@ -34,37 +38,28 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    public String generateToken(UserDetails userDetails, Role role) {
-        return generateToken(new HashMap<>(), userDetails, role);
+    public String generateToken(User userDetails) {
+        Map<String, Object> extraClaims = new HashMap<>();
+        extraClaims.put("role", userDetails.getRole().name());
+        extraClaims.put("userId", userDetails.getId());
+        extraClaims.put("fullName", userDetails.getFullName());
+        extraClaims.put("email", userDetails.getEmail());
+        return generateToken(extraClaims, userDetails);
     }
 
-    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails, Role role) {
-        User user = (User) userDetails;
-
-        safelyAddClaim(extraClaims, "role", role);
-        safelyAddClaim(extraClaims, "id", user.getId());
-        safelyAddClaim(extraClaims, "fullName", user.getFullName());
-        safelyAddClaim(extraClaims, "username", user.getUsername());
-        safelyAddClaim(extraClaims, "email", user.getEmail());
-        safelyAddClaim(extraClaims, "phone", user.getPhone());
-        safelyAddClaim(extraClaims, "userPhoto", user.getUserPhoto() != null ? user.getUserPhoto().getMediaUrl() : null);
-
+    public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         return buildToken(extraClaims, userDetails, jwtExpiration);
     }
 
-    private void safelyAddClaim(Map<String, Object> claims, String key, Object value) {
-        claims.put(key, value != null ? value : "");
+    public String generateRefreshToken(UserDetails userDetails) {
+        return buildToken(new HashMap<>(), userDetails, jwtExpiration * 7); // 7 times longer
     }
 
     public long getExpirationTime() {
         return jwtExpiration;
     }
 
-    private String buildToken(
-            Map<String, Object> extraClaims,
-            UserDetails userDetails,
-            long expiration
-    ) {
+    private String buildToken(Map<String, Object> extraClaims, UserDetails userDetails, long expiration) {
         return Jwts
                 .builder()
                 .setClaims(extraClaims)
@@ -76,16 +71,15 @@ public class JwtService {
     }
 
     public boolean isTokenValid(String token, UserDetails userDetails) {
+        if (userDetails == null) {
+            return !isTokenExpired(token);
+        }
         final String username = extractUsername(token);
         return (username.equals(userDetails.getUsername())) && !isTokenExpired(token);
     }
 
     private boolean isTokenExpired(String token) {
         return extractExpiration(token).before(new Date());
-    }
-
-    private Date extractExpiration(String token) {
-        return extractClaim(token, Claims::getExpiration);
     }
 
     private Claims extractAllClaims(String token) {
@@ -98,7 +92,23 @@ public class JwtService {
     }
 
     private Key getSignInKey() {
-        byte[] keyBytes = Decoders.BASE64.decode(secretKey);
+        byte[] keyBytes = Decoders.BASE64.decode(SECRET_KEY);
         return Keys.hmacShaKeyFor(keyBytes);
+    }
+
+    public String extractRole(String token) {
+        return extractClaim(token, claims -> claims.get("role", String.class));
+    }
+
+    public Long extractUserId(String token) {
+        return extractClaim(token, claims -> claims.get("userId", Long.class));
+    }
+
+    public String extractEmail(String token) {
+        return extractClaim(token, claims -> claims.get("email", String.class));
+    }
+
+    public boolean canTokenBeRefreshed(String token) {
+        return !isTokenExpired(token);
     }
 }

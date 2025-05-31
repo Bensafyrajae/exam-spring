@@ -1,80 +1,113 @@
 package com.example.application_web_examen.service;
 
-import com.example.application_web_examen.dto.LoginUserDto;
-import com.example.application_web_examen.dto.request.AdminRequestDto;
+import com.example.application_web_examen.dto.request.LoginRequestDto;
+import com.example.application_web_examen.dto.request.ProfessorRequestDto;
+import com.example.application_web_examen.dto.request.StudentRequestDto;
+import com.example.application_web_examen.dto.response.LoginResponseDto;
+import com.example.application_web_examen.exception.UserAlreadyExistsException;
+import com.example.application_web_examen.exception.UserNotFoundException;
 import com.example.application_web_examen.mapper.UserMapper;
-import com.example.application_web_examen.model.Admin;
+import com.example.application_web_examen.model.Professor;
+import com.example.application_web_examen.model.Student;
 import com.example.application_web_examen.model.User;
-import com.example.application_web_examen.repository.UserRepository;
+import com.example.application_web_examen.repository.ProfessorRepository;
+import com.example.application_web_examen.repository.StudentRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 @Service
 public class AuthenticationService {
 
-    private final UserRepository userRepository;
+    private final StudentRepository studentRepository;
+    private final ProfessorRepository professorRepository;
     private final UserMapper userMapper;
     private final PasswordEncoder passwordEncoder;
     private final AuthenticationManager authenticationManager;
+    private final JwtService jwtService;
 
     @Autowired
-    public AuthenticationService(UserRepository userRepository, UserMapper userMapper, PasswordEncoder passwordEncoder, AuthenticationManager authenticationManager) {
-        this.userRepository = userRepository;
+    public AuthenticationService(StudentRepository studentRepository,
+                                 ProfessorRepository professorRepository,
+                                 UserMapper userMapper,
+                                 PasswordEncoder passwordEncoder,
+                                 AuthenticationManager authenticationManager,
+                                 JwtService jwtService) {
+        this.studentRepository = studentRepository;
+        this.professorRepository = professorRepository;
         this.userMapper = userMapper;
         this.passwordEncoder = passwordEncoder;
         this.authenticationManager = authenticationManager;
+        this.jwtService = jwtService;
     }
 
-    public User signup(EtudiantRequestDto input) {
-        if (userRepository.findByUsername(input.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists");
+    @Transactional
+    public Student registerStudent(StudentRequestDto studentDto) {
+        if (studentRepository.existsByUsername(studentDto.getUsername())) {
+            throw new UserAlreadyExistsException("Username already exists");
         }
-        if (userRepository.findByEmail(input.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already exists");
+        if (studentRepository.existsByEmail(studentDto.getEmail())) {
+            throw new UserAlreadyExistsException("Email already exists");
         }
 
-        User user = userMapper.toEtudiantEntity(input);
-        user.setPassword(passwordEncoder.encode(input.getPassword()));
-        return userRepository.save(user);
+        Student student = userMapper.toStudentEntity(studentDto);
+        student.setPassword(passwordEncoder.encode(studentDto.getPassword()));
+        return studentRepository.save(student);
     }
 
-    public Prof addProf(ProfRequestDto input) {
-        if (userRepository.findByUsername(input.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists");
+    @Transactional
+    public Professor registerProfessor(ProfessorRequestDto professorDto) {
+        if (professorRepository.existsByUsername(professorDto.getUsername())) {
+            throw new UserAlreadyExistsException("Username already exists");
         }
-        if (userRepository.findByEmail(input.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already exists");
+        if (professorRepository.existsByEmail(professorDto.getEmail())) {
+            throw new UserAlreadyExistsException("Email already exists");
         }
 
-        Prof prof = userMapper.toProfEntity(input);
-        prof.setPassword(passwordEncoder.encode(input.getPassword()));
-        return userRepository.save(prof);
+        Professor professor = userMapper.toProfessorEntity(professorDto);
+        professor.setPassword(passwordEncoder.encode(professorDto.getPassword()));
+        return professorRepository.save(professor);
     }
 
-    public Admin addAdmin(AdminRequestDto input) {
-        if (userRepository.findByUsername(input.getUsername()).isPresent()) {
-            throw new RuntimeException("Username already exists");
-        }
-        if (userRepository.findByEmail(input.getEmail()).isPresent()) {
-            throw new RuntimeException("Email already exists");
-        }
+    public LoginResponseDto authenticate(LoginRequestDto loginRequest) {
+        try {
+            Authentication authentication = authenticationManager.authenticate(
+                    new UsernamePasswordAuthenticationToken(
+                            loginRequest.getUsername(),
+                            loginRequest.getPassword()
+                    )
+            );
 
-        Admin admin = userMapper.toAdminEntity(input);
-        admin.setPassword(passwordEncoder.encode(input.getPassword()));
-        return userRepository.save(admin);
+            User user = (User) authentication.getPrincipal();
+            String token = jwtService.generateToken(user);
+
+            return new LoginResponseDto(
+                    token,
+                    jwtService.getExpirationTime(),
+                    user.getRole().name(),
+                    user.getId(),
+                    user.getFullName()
+            );
+        } catch (BadCredentialsException e) {
+            throw new UserNotFoundException("Invalid credentials");
+        }
     }
 
-    public User authenticate(LoginUserDto input) {
-        authenticationManager.authenticate(
-                new UsernamePasswordAuthenticationToken(
-                        input.getUserNameOrEmail(),
-                        input.getPassword()
-                )
-        );
+    public void logout(String token) {
+        // Vous pouvez implémenter une blacklist de tokens ici si nécessaire
+        // Pour l'instant, le logout se fait côté client en supprimant le token
+    }
 
-        return userRepository.findByUsernameOrEmail(input.getUserNameOrEmail(), input.getUserNameOrEmail());
+    public boolean validateToken(String token) {
+        try {
+            return jwtService.isTokenValid(token, null);
+        } catch (Exception e) {
+            return false;
+        }
     }
 }

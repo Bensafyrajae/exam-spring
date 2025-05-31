@@ -1,80 +1,54 @@
 package com.example.application_web_examen.controller;
 
-import com.example.application_web_examen.dto.*;
-import com.example.application_web_examen.dto.request.AdminRequestDto;
-import com.example.application_web_examen.dto.response.AdminResponseDto;
-import com.example.application_web_examen.enums.Role;
-import com.example.application_web_examen.exception.UserNotFoundException;
+import com.example.application_web_examen.dto.request.LoginRequestDto;
+import com.example.application_web_examen.dto.request.ProfessorRequestDto;
+import com.example.application_web_examen.dto.request.StudentRequestDto;
+import com.example.application_web_examen.dto.response.LoginResponseDto;
+import com.example.application_web_examen.dto.response.ProfessorResponseDto;
+import com.example.application_web_examen.dto.response.StudentResponseDto;
 import com.example.application_web_examen.mapper.UserMapper;
-import com.example.application_web_examen.model.Admin;
-import com.example.application_web_examen.model.User;
+import com.example.application_web_examen.model.Professor;
+import com.example.application_web_examen.model.Student;
 import com.example.application_web_examen.service.AuthenticationService;
-import com.example.application_web_examen.service.JwtService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 @RestController
 @RequestMapping("/api/auth")
+@CrossOrigin(origins = "*")
 public class AuthenticationController {
 
-    private final JwtService jwtService;
     private final AuthenticationService authenticationService;
     private final UserMapper userMapper;
 
     @Autowired
-    public AuthenticationController(JwtService jwtService, AuthenticationService authenticationService, UserMapper userMapper) {
-        this.jwtService = jwtService;
+    public AuthenticationController(AuthenticationService authenticationService, UserMapper userMapper) {
         this.authenticationService = authenticationService;
         this.userMapper = userMapper;
     }
 
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/add-etudiant")
-    public ResponseEntity<EtudiantResponseDto> register(@RequestBody EtudiantRequestDto etudiantDTO) {
-        User newEtudiant = authenticationService.signup(etudiantDTO);
-        EtudiantResponseDto responseDto = userMapper.toEtudiantResponseDto((Etudiant) newEtudiant);
-        return ResponseEntity.ok(responseDto);
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/add-prof")
-    public ResponseEntity<ProfResponseDto> addArtisan(@RequestBody ProfRequestDto profDTO) {
-        User newProf = authenticationService.addProf(profDTO);
-        ProfResponseDto responseDto = userMapper.toProfResponseDto((Prof) newProf);
-        return ResponseEntity.ok(responseDto);
-    }
-
-    @PreAuthorize("hasRole('ROLE_ADMIN')")
-    @PostMapping("/add-admin")
-    public ResponseEntity<AdminResponseDto> addAdmin(@RequestBody AdminRequestDto adminDTO) {
-        User newAdmin = authenticationService.addAdmin(adminDTO);
-        AdminResponseDto responseDto = userMapper.toAdminResponseDto((Admin) newAdmin); // Assuming newAdmin is of type Admin
-        return ResponseEntity.ok(responseDto);
-    }
-
     @PostMapping("/login")
-    public ResponseEntity<?> authenticate(@RequestBody LoginUserDto loginUserDto) {
-        try {
-            User authenticatedUser = authenticationService.authenticate(loginUserDto);
-            Role role = authenticatedUser.getRole();
+    public ResponseEntity<LoginResponseDto> login(@RequestBody LoginRequestDto loginRequest) {
+        LoginResponseDto response = authenticationService.authenticate(loginRequest);
+        return ResponseEntity.ok(response);
+    }
 
-            String jwtToken = jwtService.generateToken(authenticatedUser, role);
-            LoginResponse loginResponse = new LoginResponse();
-            loginResponse.setToken(jwtToken);
-            loginResponse.setExpiresIn(jwtService.getExpirationTime());
+    @PreAuthorize("hasRole('ROLE_ADMIN') or hasRole('ROLE_PROFESSOR')")
+    @PostMapping("/register/student")
+    public ResponseEntity<StudentResponseDto> registerStudent(@RequestBody StudentRequestDto studentDto) {
+        Student student = authenticationService.registerStudent(studentDto);
+        StudentResponseDto response = userMapper.toStudentResponseDto(student);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
+    }
 
-            return ResponseEntity.ok(loginResponse);
-        } catch (UserNotFoundException ex) {
-            return ResponseEntity.status(HttpStatus.UNAUTHORIZED).body(ex.getMessage());
-        } catch (Exception ex) {
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body("An error occurred during login.");
-        }
+    @PreAuthorize("hasRole('ROLE_ADMIN')")
+    @PostMapping("/register/professor")
+    public ResponseEntity<ProfessorResponseDto> registerProfessor(@RequestBody ProfessorRequestDto professorDto) {
+        Professor professor = authenticationService.registerProfessor(professorDto);
+        ProfessorResponseDto response = userMapper.toProfessorResponseDto(professor);
+        return new ResponseEntity<>(response, HttpStatus.CREATED);
     }
 }
