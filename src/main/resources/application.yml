@@ -1,0 +1,31 @@
+spring:
+  application:
+    name: application-web
+  datasource:
+    url: jdbc:mysql://localhost:3308/app_web_db?createDatabaseIfNotExist=true
+    username: root
+    password: 1234
+  jpa:
+    properties:
+      hibernate:
+        dialect: org.hibernate.dialect.MariaDBDialect
+        format_sql: true
+    hibernate:
+      ddl-auto: update
+    show-sql: true
+  sql:
+    init:
+      platform: mysql
+  web:
+    cors:
+      allowed-origins: "http://localhost:4200"
+      allowed-methods: "GET, POST, PUT, DELETE, OPTIONS"
+      allowed-headers: "Authorization, Content-Type"
+      allow-credentials: true
+
+security:
+  jwt:
+    secret-key: 357638792F423F4428472B4B6250655368566D597133743677397A2443264629
+    expiration-time: 3600000
+server:
+  port: 8081
