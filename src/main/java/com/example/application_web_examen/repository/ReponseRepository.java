@@ -1,6 +1,5 @@
 package com.example.application_web_examen.repository;
 
-import com.example.application_web_examen.model.Reponse;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;

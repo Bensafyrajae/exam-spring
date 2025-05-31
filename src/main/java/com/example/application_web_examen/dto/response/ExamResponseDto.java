@@ -12,12 +12,15 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExamenResponseDto {
+public class ExamResponseDto {
     private Long id;
-    private String nom;
+    private String name;
     private String description;
-    private String lienUnique;
-    private LocalDateTime dateCreation;
-    private ProfResponseDto createur;
+    private Integer questionsCount;
+    private Integer durationMinutes;
+    private Integer maxAttemptsAllowed;
+    private ProfessorResponseDto professor;
+    private LocalDateTime createdAt;
+    private Boolean isActive;
     private List<QuestionResponseDto> questions;
 }

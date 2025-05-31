@@ -1,6 +1,5 @@
 package com.example.application_web_examen.dto.request;
 
-import com.example.application_web_examen.enums.Type;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,10 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class MediaRequestDto {
-    private String mediaUrl;
-    private String mediaId;
-    private Type type;
-    private Long productId;
-    private Long userId;
+public class ProfessorRequestDto {
+    private String fullName;
+    private String username;
+    private String password;
+    private String email;
+    private String phone;
 }

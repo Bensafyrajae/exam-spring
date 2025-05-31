@@ -1,8 +1,5 @@
 package com.example.application_web_examen.controller;
 
-import com.example.application_web_examen.dto.request.ReponseRequestDto;
-import com.example.application_web_examen.dto.response.ReponseResponseDto;
-import com.example.application_web_examen.dto.response.ScoreResponseDto;
 import com.example.application_web_examen.model.User;
 import com.example.application_web_examen.service.ReponseService;
 import com.example.application_web_examen.service.ScoreService;

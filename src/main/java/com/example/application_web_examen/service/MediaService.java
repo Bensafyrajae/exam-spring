@@ -1,6 +1,5 @@
 package com.example.application_web_examen.service;
 
-import com.example.application_web_examen.enums.Type;
 import com.example.application_web_examen.model.Media;
 import com.example.application_web_examen.model.User;
 import com.example.application_web_examen.repository.MediaRepository;

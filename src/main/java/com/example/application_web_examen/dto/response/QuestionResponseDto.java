@@ -1,6 +1,6 @@
 package com.example.application_web_examen.dto.response;
 
-import com.example.application_web_examen.enums.TypeQuestion;
+import com.example.application_web_examen.enums.QuestionType;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -14,9 +14,8 @@ import java.util.List;
 @AllArgsConstructor
 public class QuestionResponseDto {
     private Long id;
-    private String texteQuestion;
-    private Integer dureeEnSecondes;
-    private TypeQuestion type;
-    private List<String> options;
-    private MediaResponseDto image;
+    private String questionText;
+    private QuestionType type;
+    private List<AnswerResponseDto> answers;
+    private List<String> imageUrls;
 }

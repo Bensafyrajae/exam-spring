@@ -1,20 +1,14 @@
 package com.example.application_web_examen.service;
 
-import com.example.application_web_examen.dto.request.QuestionRequestDto;
-import com.example.application_web_examen.dto.response.QuestionResponseDto;
 import com.example.application_web_examen.exception.ResourceNotFoundException;
 import com.example.application_web_examen.mapper.QuestionMapper;
-import com.example.application_web_examen.model.Examen;
-import com.example.application_web_examen.model.Media;
 import com.example.application_web_examen.model.Question;
 import com.example.application_web_examen.repository.ExamenRepository;
 import com.example.application_web_examen.repository.QuestionRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
 import java.util.List;
 import java.util.stream.Collectors;
 

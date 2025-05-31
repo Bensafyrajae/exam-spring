@@ -9,8 +9,10 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ScoreResponseDto {
-    private Long nombreReponseCorrectes;
-    private Long nombreQuestions;
-    private Double pourcentage;
+public class LoginResponseDto {
+    private String token;
+    private Long expiresIn;
+    private String userType;
+    private Long userId;
+    private String fullName;
 }

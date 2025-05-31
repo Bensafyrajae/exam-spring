@@ -5,14 +5,15 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExamenRequestDto {
-    private String nom;
-    private String description;
-    private List<QuestionRequestDto> questions;
+public class AssignedExamRequestDto {
+    private Long examId;
+    private List<Long> studentIds;
+    private LocalDateTime finalDate;
 }

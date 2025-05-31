@@ -5,15 +5,12 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.util.List;
-
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClasseResponseDto {
+public class AnswerResponseDto {
     private Long id;
-    private String nom;
-    private Integer anneeAcademique;
-    private List<ModuleResponseDto> modules;
+    private String answerText;
+    private Boolean isCorrect; // Only included for professors
 }

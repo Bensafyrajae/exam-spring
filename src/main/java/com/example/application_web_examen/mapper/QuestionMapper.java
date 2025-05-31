@@ -1,7 +1,5 @@
 package com.example.application_web_examen.mapper;
 
-import com.example.application_web_examen.dto.request.QuestionRequestDto;
-import com.example.application_web_examen.dto.response.QuestionResponseDto;
 import com.example.application_web_examen.model.Question;
 import org.mapstruct.*;
 

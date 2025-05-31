@@ -1,7 +1,6 @@
 package com.example.application_web_examen.service;
 
 import com.example.application_web_examen.dto.request.AdminRequestDto;
-import com.example.application_web_examen.enums.Type;
 import com.example.application_web_examen.mapper.UserMapper;
 import com.example.application_web_examen.model.Admin;
 import com.example.application_web_examen.model.Media;

@@ -1,6 +1,5 @@
-package com.example.application_web_examen.dto.request;
+package com.example.application_web_examen.dto.response;
 
-import com.example.application_web_examen.enums.Specialty;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -10,13 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProfRequestDto {
+public class StudentResponseDto {
+    private Long id;
     private String fullName;
     private String username;
-    private String password;
     private String email;
     private String phone;
-    private Specialty specialty;
-    private String location;
-    private int experience;
+    private MediaResponseDto userPhoto;
 }

@@ -11,8 +11,10 @@ import java.util.List;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ClasseRequestDto {
-    private String nom;
-    private Integer anneeAcademique;
-    private List<Long> moduleIds;
+public class ExamRequestDto {
+    private String name;
+    private String description;
+    private Integer durationMinutes;
+    private Integer maxAttemptsAllowed;
+    private List<QuestionRequestDto> questions;
 }

@@ -1,7 +1,5 @@
 package com.example.application_web_examen.mapper;
 
-import com.example.application_web_examen.dto.request.MediaRequestDto;
-import com.example.application_web_examen.dto.response.MediaResponseDto;
 import com.example.application_web_examen.model.Media;
 import org.mapstruct.*;
 

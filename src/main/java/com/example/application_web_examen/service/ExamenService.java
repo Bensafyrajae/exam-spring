@@ -1,11 +1,7 @@
 package com.example.application_web_examen.service;
 
-import com.example.application_web_examen.dto.request.ExamenRequestDto;
-import com.example.application_web_examen.dto.response.ExamenResponseDto;
 import com.example.application_web_examen.exception.ResourceNotFoundException;
 import com.example.application_web_examen.mapper.ExamenMapper;
-import com.example.application_web_examen.model.Examen;
-import com.example.application_web_examen.model.Prof;
 import com.example.application_web_examen.repository.ExamenRepository;
 import com.example.application_web_examen.repository.ProfRepository;
 import org.springframework.beans.factory.annotation.Autowired;

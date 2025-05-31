@@ -9,10 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class EtudiantRequestDto {
-    private String fullName;
-    private String username;
-    private String password;
-    private String email;
-    private String phone;
+public class AnswerRequestDto {
+    private String answerText;
+    private Boolean isCorrect;
 }

@@ -1,7 +1,5 @@
 package com.example.application_web_examen.controller;
 
-import com.example.application_web_examen.dto.request.QuestionRequestDto;
-import com.example.application_web_examen.dto.response.QuestionResponseDto;
 import com.example.application_web_examen.service.QuestionService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;

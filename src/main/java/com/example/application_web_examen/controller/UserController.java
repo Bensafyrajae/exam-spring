@@ -2,8 +2,6 @@ package com.example.application_web_examen.controller;
 
 import com.example.application_web_examen.mapper.UserMapper;
 import com.example.application_web_examen.model.Admin;
-import com.example.application_web_examen.model.Prof;
-import com.example.application_web_examen.model.Etudiant;
 import com.example.application_web_examen.model.User;
 import com.example.application_web_examen.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;

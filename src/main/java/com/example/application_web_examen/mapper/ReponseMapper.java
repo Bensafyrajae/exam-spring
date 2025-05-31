@@ -1,8 +1,5 @@
 package com.example.application_web_examen.mapper;
 
-import com.example.application_web_examen.dto.request.ReponseRequestDto;
-import com.example.application_web_examen.dto.response.ReponseResponseDto;
-import com.example.application_web_examen.model.Reponse;
 import org.mapstruct.*;
 
 @Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)

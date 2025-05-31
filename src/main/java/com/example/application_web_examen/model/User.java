@@ -33,7 +33,7 @@ public abstract class User implements UserDetails {
     private String phone;
 
     @OneToOne(cascade = CascadeType.PERSIST)
-    private Media userPhoto = new Media();
+    private Media userPhoto;
 
     @Enumerated(EnumType.STRING)
     private Role role;
@@ -51,5 +51,25 @@ public abstract class User implements UserDetails {
     @Override
     public String getUsername() {
         return username;
+    }
+
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isAccountNonLocked() {
+        return true;
+    }
+
+    @Override
+    public boolean isCredentialsNonExpired() {
+        return true;
+    }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
     }
 }

@@ -1,7 +1,5 @@
 package com.example.application_web_examen.controller;
 
-import com.example.application_web_examen.dto.request.ExamenRequestDto;
-import com.example.application_web_examen.dto.response.ExamenResponseDto;
 import com.example.application_web_examen.model.User;
 import com.example.application_web_examen.service.ExamenService;
 import org.springframework.beans.factory.annotation.Autowired;

@@ -2,17 +2,11 @@ package com.example.application_web_examen.controller;
 
 import com.example.application_web_examen.dto.*;
 import com.example.application_web_examen.dto.request.AdminRequestDto;
-import com.example.application_web_examen.dto.request.ProfRequestDto;
-import com.example.application_web_examen.dto.request.EtudiantRequestDto;
 import com.example.application_web_examen.dto.response.AdminResponseDto;
-import com.example.application_web_examen.dto.response.EtudiantResponseDto;
-import com.example.application_web_examen.dto.response.ProfResponseDto;
 import com.example.application_web_examen.enums.Role;
 import com.example.application_web_examen.exception.UserNotFoundException;
 import com.example.application_web_examen.mapper.UserMapper;
 import com.example.application_web_examen.model.Admin;
-import com.example.application_web_examen.model.Prof;
-import com.example.application_web_examen.model.Etudiant;
 import com.example.application_web_examen.model.User;
 import com.example.application_web_examen.service.AuthenticationService;
 import com.example.application_web_examen.service.JwtService;

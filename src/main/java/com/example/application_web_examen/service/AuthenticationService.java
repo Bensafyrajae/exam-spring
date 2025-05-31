@@ -2,11 +2,8 @@ package com.example.application_web_examen.service;
 
 import com.example.application_web_examen.dto.LoginUserDto;
 import com.example.application_web_examen.dto.request.AdminRequestDto;
-import com.example.application_web_examen.dto.request.ProfRequestDto;
-import com.example.application_web_examen.dto.request.EtudiantRequestDto;
 import com.example.application_web_examen.mapper.UserMapper;
 import com.example.application_web_examen.model.Admin;
-import com.example.application_web_examen.model.Prof;
 import com.example.application_web_examen.model.User;
 import com.example.application_web_examen.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;

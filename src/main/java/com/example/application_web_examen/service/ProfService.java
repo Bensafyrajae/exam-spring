@@ -1,8 +1,6 @@
 package com.example.application_web_examen.service;
 
-import com.example.application_web_examen.dto.request.ProfRequestDto;
 import com.example.application_web_examen.mapper.UserMapper;
-import com.example.application_web_examen.model.Prof;
 import com.example.application_web_examen.model.Media;
 import com.example.application_web_examen.repository.ProfRepository;
 import org.springframework.beans.factory.annotation.Autowired;

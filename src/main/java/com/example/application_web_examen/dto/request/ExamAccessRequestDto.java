@@ -9,8 +9,7 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ReponseRequestDto {
-    private Long questionId;
-    private String reponseTexte;
-    private String emailEtudiant;
+public class ExamAccessRequestDto {
+    private String uniqueLink;
+    private String passcode;
 }

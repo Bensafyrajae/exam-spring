@@ -9,9 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ModuleResponseDto {
+public class ProfessorResponseDto {
     private Long id;
-    private String nom;
-    private String code;
-    private String description;
+    private String fullName;
+    private String username;
+    private String email;
+    private String phone;
+    private MediaResponseDto userPhoto;
 }

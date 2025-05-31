@@ -1,6 +1,5 @@
 package com.example.application_web_examen.service;
 
-import com.example.application_web_examen.dto.response.ScoreResponseDto;
 import com.example.application_web_examen.repository.ReponseRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

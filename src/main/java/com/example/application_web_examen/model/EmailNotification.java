@@ -1,5 +1,6 @@
 package com.example.application_web_examen.model;
 
+import com.example.application_web_examen.enums.EmailType;
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
@@ -13,23 +14,26 @@ import java.time.LocalDateTime;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Reponse {
+public class EmailNotification {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String reponseTexte;
-    private Boolean estCorrect;
-    private LocalDateTime dateReponse;
+    private String recipientEmail;
+    private String subject;
 
-    @ManyToOne
-    private Question question;
+    @Column(length = 5000)
+    private String content;
 
-    @ManyToOne
-    private Etudiant etudiant;
+    @Enumerated(EnumType.STRING)
+    private EmailType type;
+
+    private LocalDateTime sentAt;
+    private Boolean sent = false;
+    private String errorMessage;
 
     @PrePersist
     public void prePersist() {
-        this.dateReponse = LocalDateTime.now();
+        this.sentAt = LocalDateTime.now();
     }
 }

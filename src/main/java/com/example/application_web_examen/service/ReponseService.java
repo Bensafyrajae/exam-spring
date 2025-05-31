@@ -1,14 +1,8 @@
 package com.example.application_web_examen.service;
 
-import com.example.application_web_examen.dto.request.ReponseRequestDto;
-import com.example.application_web_examen.dto.response.ReponseResponseDto;
-import com.example.application_web_examen.dto.response.ScoreResponseDto;
 import com.example.application_web_examen.exception.ResourceNotFoundException;
 import com.example.application_web_examen.mapper.ReponseMapper;
-import com.example.application_web_examen.model.Etudiant;
 import com.example.application_web_examen.model.Question;
-import com.example.application_web_examen.model.Reponse;
-import com.example.application_web_examen.repository.EtudiantRepository;
 import com.example.application_web_examen.repository.QuestionRepository;
 import com.example.application_web_examen.repository.ReponseRepository;
 import com.example.application_web_examen.repository.UserRepository;

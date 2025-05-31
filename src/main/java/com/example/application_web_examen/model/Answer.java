@@ -6,24 +6,27 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
 
-import java.time.LocalDateTime;
-
 @Entity
 @Getter
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class ExamenClasse {
+public class Answer {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private LocalDateTime dateDebut;
-    private LocalDateTime dateFin;
-
     @ManyToOne
-    private Examen examen;
+    @JoinColumn(name = "question_id")
+    private Question question;
 
-    @ManyToOne
-    private Classe classe;
+    @Column(length = 1000)
+    private String answerText;
+
+    private Boolean isCorrect = false;
+
+    public Answer(String answerText, Boolean isCorrect) {
+        this.answerText = answerText;
+        this.isCorrect = isCorrect;
+    }
 }
