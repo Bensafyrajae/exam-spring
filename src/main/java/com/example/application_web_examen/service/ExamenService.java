@@ -1,9 +1,6 @@
 package com.example.application_web_examen.service;
 
 import com.example.application_web_examen.exception.ResourceNotFoundException;
-import com.example.application_web_examen.mapper.ExamenMapper;
-import com.example.application_web_examen.repository.ExamenRepository;
-import com.example.application_web_examen.repository.ProfRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;

@@ -1,31 +1,45 @@
 package com.example.application_web_examen.mapper;
 
-import com.example.application_web_examen.dto.request.AdminRequestDto;
-import com.example.application_web_examen.dto.response.AdminResponseDto;
-import com.example.application_web_examen.model.*;
+import com.example.application_web_examen.dto.request.ProfessorRequestDto;
+import com.example.application_web_examen.dto.request.StudentRequestDto;
+import com.example.application_web_examen.dto.response.ProfessorResponseDto;
+import com.example.application_web_examen.dto.response.StudentResponseDto;
+import com.example.application_web_examen.model.Professor;
+import com.example.application_web_examen.model.Student;
 import org.mapstruct.*;
 
-@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING)
+@Mapper(unmappedTargetPolicy = ReportingPolicy.IGNORE, componentModel = MappingConstants.ComponentModel.SPRING, uses = {MediaMapper.class})
 public interface UserMapper {
 
-    // Admin Mappings
-    AdminResponseDto toAdminResponseDto(Admin admin);
-    Admin toAdminEntity(AdminRequestDto dto);
+    // Student mappings
+    StudentResponseDto toStudentResponseDto(Student student);
+
+    @Mapping(target = "assignedExams", ignore = true)
+    @Mapping(target = "examsResults", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "userPhoto", ignore = true)
+    Student toStudentEntity(StudentRequestDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Admin partialUpdateAdmin(AdminRequestDto adminRequestDto, @MappingTarget Admin admin);
+    @Mapping(target = "assignedExams", ignore = true)
+    @Mapping(target = "examsResults", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "userPhoto", ignore = true)
+    Student partialUpdateStudent(StudentRequestDto studentRequestDto, @MappingTarget Student student);
 
-    // Artisan Mappings
-    ProfResponseDto toProfResponseDto(Prof prof);
-    Prof toProfEntity(ProfRequestDto dto);
+    // Professor mappings
+    ProfessorResponseDto toProfessorResponseDto(Professor professor);
+
+    @Mapping(target = "exams", ignore = true)
+    @Mapping(target = "assignedExams", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "userPhoto", ignore = true)
+    Professor toProfessorEntity(ProfessorRequestDto dto);
 
     @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Prof partialUpdateProf(ProfRequestDto profRequestDto, @MappingTarget Prof prof);
-
-    // Customer Mappings
-    EtudiantResponseDto toEtudiantResponseDto(Etudiant etudiant);
-    Etudiant toEtudiantEntity(EtudiantRequestDto dto);
-
-    @BeanMapping(nullValuePropertyMappingStrategy = NullValuePropertyMappingStrategy.IGNORE)
-    Etudiant partialUpdateEtudiant(EtudiantRequestDto etudiantRequestDto, @MappingTarget Etudiant etudiant);
+    @Mapping(target = "exams", ignore = true)
+    @Mapping(target = "assignedExams", ignore = true)
+    @Mapping(target = "role", ignore = true)
+    @Mapping(target = "userPhoto", ignore = true)
+    Professor partialUpdateProfessor(ProfessorRequestDto professorRequestDto, @MappingTarget Professor professor);
 }

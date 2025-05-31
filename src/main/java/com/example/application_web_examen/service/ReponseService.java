@@ -1,10 +1,8 @@
 package com.example.application_web_examen.service;
 
 import com.example.application_web_examen.exception.ResourceNotFoundException;
-import com.example.application_web_examen.mapper.ReponseMapper;
 import com.example.application_web_examen.model.Question;
 import com.example.application_web_examen.repository.QuestionRepository;
-import com.example.application_web_examen.repository.ReponseRepository;
 import com.example.application_web_examen.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

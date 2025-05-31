@@ -8,5 +8,6 @@ import java.util.List;
 
 @Repository
 public interface QuestionRepository extends JpaRepository<Question, Long> {
-    List<Question> findByExamenId(Long examenId);
+    List<Question> findByExamId(Long examId);
+    int countByExamId(Long examId);
 }
